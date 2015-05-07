@@ -34,10 +34,6 @@ app.get('/', function(request, response){
 });
 
 io.on('connection', function(socket){
-	for(var i = 0; i<chatMessages.length; i++){
-		console.log(i + ": " + chatMessages[i]);
-	}
-	console.log("after for loop");
 	++numUsers;
 	socket.emit('pageload', chatMessages);
 	socket.on("username", function(name){
@@ -51,20 +47,22 @@ io.on('connection', function(socket){
 		}
 		userIds.arr.push({"idNum": val, "userName": name});
 		console.log(name + " joined.");
-		//chatMessages.push("<i>" + name + " joined.</i>");
 	});
 	socket.on("add", function(message){
 		chatMessages.push(message);
 		io.emit('info message', message);
 	});
+	socket.on("addLeave", function(message){
+		io.emit('info message', message);
+	});
 	socket.on('disconnect', function(){
-		--numUsers;
-		if(numUsers>0){
-			if(getId(userIds.arr, socket.id)!==null){
+		if(numUsers > 0) {
+			if(getId(userIds.arr, socket.id) !== null){
 				io.emit('left', getId(userIds.arr,socket.id).userName);
-				//chatMessages.push("<i>" + userIds.arr[j].userName + ": Left</i>");
-				console.log(getId(userIds.arr, socket.id).userName + ": Left");
+				chatMessages.push("<i>" + getId(userIds.arr, socket.id).userName + " left.</i>");
+				console.log(getId(userIds.arr, socket.id).userName + " left.");
 			}
+			--numUsers;
 		}
 		else{
 			console.log("nobody is in there");
