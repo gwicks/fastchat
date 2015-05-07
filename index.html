@@ -56,10 +56,6 @@
         messagesize = messagesize + 2;
         $('#typebar').css('top','' + messagesize + 'px');
       });
-      socket.on('disconnect', function(){
-        //$('#messages').append("<li><i>" + getName('name') + " left</i></li>");
-        socket.emit("add", "<i>" + getName('name') + " leftDISCONNECT</i>");
-      });
       socket.on('chat message', function(obj){
         $('#messages').append("<li>" + obj.id + ": " + obj.message + "</li>");
         $('#message-container').scrollTop(10000);

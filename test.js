@@ -119,7 +119,7 @@ io.on('connection', function(socket){
                     if (rawJSON["data"]) {
                         rawJSON = rawJSON["data"][0]["images"]["original"];
                         var url = rawJSON["url"];
-		        chatMessages.push(getId(userIds.arr, socket.id).userName+ " " + content.join(' ')+ " " + url);
+		        chatMessages.push(getId(userIds.arr, socket.id).userName+ " " + content.join(' ')+ " " + "<img src='" + url + "' />");
                         io.emit('giphy', {"message":content.join(' '), "gurl":url, "id":getId(userIds.arr, socket.id).userName});
                     }
                 }
