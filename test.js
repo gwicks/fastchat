@@ -23,7 +23,6 @@ app.get('/', function(request, response){
 io.on('connection', function(socket){
 	numUsers++;
 	console.log("Number of Users: " + numUsers);
-	console.log(socket.id);
 	socket.emit('pageload', chatMessages);
 	socket.on("username", function(name){
 		var val = socket.id;
@@ -31,7 +30,12 @@ io.on('connection', function(socket){
 	});
 	socket.on('disconnect', function(){
 		numUsers--;
-		console.log(getId(userIds.arr, socket.id).userName + ": Left");
+		if(numUsers>0){
+			console.log(getId(userIds.arr, socket.id).userName + ": Left");
+		}
+		else{
+			console.log("nobody is in there");
+		}
 		console.log("Number of Users: " + numUsers);
 		for(var j = 0; j<userIds.arr.length; j++){
 			if(userIds.arr[j].idNum===socket.id){
@@ -40,6 +44,9 @@ io.on('connection', function(socket){
 		}
 	})
 	socket.on('chat message', function(message){
+		if(chatMessages.size >100){
+			chatMessage.splice(0,50);
+		}
 		if(message=='/erase'){
 			io.emit('erase chat');
 			chatMessages = [];
