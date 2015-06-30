@@ -33,11 +33,11 @@
         var userName = prompt("Please enter your name:");
         socket.emit("username", userName);
         for(var i = 0; i<data.length; i++){
-          $('#messages').append('<li>' + data[i]);
+          $('#messages').append("<li>" + data[i]);
         }
       });
       socket.on('chat message', function(obj){
-        $('#messages').append($('<li>').text(obj.id + ": " + obj.message));
+        $('#messages').append($("<li>" + obj.id + ": " + obj.message));
     });
       socket.on('hannah', function(obj) {
           $('#messages').append("<li>" + obj.id + ": " + "<img src='http://33.media.tumblr.com/26bf203475c4f4350c6d837da9e25a3f/tumblr_mucnehOqeX1rby04wo1_1280.gif' /></li><br><br>");
