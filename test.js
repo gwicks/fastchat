@@ -71,6 +71,9 @@ io.on('connection', function(socket){
 	});
 });
 
+
+app.use(express.static(__dirname));
+
 http.listen(8083,"0.0.0.0", function(){
 	console.log("listening on *.8083");
 });

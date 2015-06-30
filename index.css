@@ -1,0 +1,28 @@
+body{
+  height: 100%;
+  width: 100%;
+  margin: 0px 0px 0px 0px;
+  background-color: rgb(250, 250, 250);
+  font: 13px Helvetica, Arial;
+}
+
+#message-container{
+  height: 70%;
+  width: 80%;
+  overflow: scroll;
+}
+
+#typebar{
+  width: 100%;
+  height: 40px;
+}
+
+#typebar input{
+  width: 89%;
+  height: 100%;
+}
+
+#typebar button{
+  width: 9%;
+  height: 100%;
+}
