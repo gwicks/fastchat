@@ -4,6 +4,15 @@ var fs = require('fs');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+function getId(arr, id){
+	for(var i = 0; i<arr.length; i++){
+		if(arr[i].idNum===id){
+			return arr[i];
+		}
+	}
+	return null;
+}
+
 var chatMessages = [];
 var numUsers = 0;
 var userIds = {arr:[]};
@@ -18,15 +27,16 @@ io.on('connection', function(socket){
 	socket.emit('pageload', chatMessages);
 	socket.on("username", function(name){
 		var val = socket.id;
-		userIds.arr.push({val: name});
+		userIds.arr.push({"idNum": val, "userName": name});
 	});
 	socket.on('disconnect', function(){
 		numUsers--;
-		console.log(userIds.arr[socket.id] + ": Left");
+		console.log(getId(userIds.arr, socket.id).userName + ": Left");
 		console.log("Number of Users: " + numUsers);
-		var index = userIds.arr.indexOf(socket.id);
-		if(index!=-1){
-			userIds.arr.splice(index,1);
+		for(var j = 0; j<userIds.arr.length; j++){
+			if(userIds.arr[j].idNum===socket.id){
+				userIds.arr.splice(j,1);
+			}
 		}
 	})
 	socket.on('chat message', function(message){
@@ -35,9 +45,9 @@ io.on('connection', function(socket){
 			chatMessages = [];
 		}
 		else{
-			io.emit('chat message', {"message":message, "id":userIds.arr[socket.id]});
-			chatMessages.push(userids.arr[socket.id] + ": " + message);
-            console.log(userids.arr[socket.id]  + ": " + message);
+			io.emit('chat message', {"message":message, "id":getId(userIds.arr, socket.id).userName});
+			chatMessages.push(getId(userIds.arr, socket.id).userName + ": " + message);
+            console.log(getId(userIds.arr, socket.id).userName  + ": " + message);
 		}
 	});
 });
