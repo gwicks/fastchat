@@ -17,12 +17,17 @@ io.on('connection', function(socket){
 	console.log(socket.id);
 	socket.emit('pageload', chatMessages);
 	socket.on("username", function(name){
-		userIds.arr.push({socket.id: name});
+		var val = socket.id;
+		userIds.arr.push({val: name});
 	});
 	socket.on('disconnect', function(){
 		numUsers--;
-		console.log(socket.id + ": Left");
+		console.log(userIds.arr[socket.id] + ": Left");
 		console.log("Number of Users: " + numUsers);
+		var index = userIds.arr.indexOf(socket.id);
+		if(index!=-1){
+			userIds.arr.splice(index,1);
+		}
 	})
 	socket.on('chat message', function(message){
 		if(message=='/erase'){
@@ -30,9 +35,9 @@ io.on('connection', function(socket){
 			chatMessages = [];
 		}
 		else{
-			io.emit('chat message', message);
-			chatMessages.push(message);
-            console.log(socket.id  + ": " + message);
+			io.emit('chat message', {"message":message, "id":userIds.arr[socket.id]});
+			chatMessages.push(userids.arr[socket.id] + ": " + message);
+            console.log(userids.arr[socket.id]  + ": " + message);
 		}
 	});
 });

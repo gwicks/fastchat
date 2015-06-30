@@ -36,8 +36,8 @@
           $('#messages').append($('<li>').text(data[i]))
         }
       });
-      socket.on('chat message', function(message){
-        $('#messages').append($('<li>').text(message));
+      socket.on('chat message', function(obj){
+        $('#messages').append($('<li>').text(obj.id + ": " + obj.message));
       });
       socket.on('erase chat', function(message){
         $('#messages').empty();
