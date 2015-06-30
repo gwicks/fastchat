@@ -5,11 +5,13 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 function getId(arr, id){
+	console.log("ID: " + id);
 	for(var i = 0; i<arr.length; i++){
 		if(arr[i].idNum===id){
 			return arr[i];
 		}
 	}
+	console.log("RETURNING NULL");
 	return null;
 }
 
@@ -31,6 +33,7 @@ io.on('connection', function(socket){
 	socket.on('disconnect', function(){
 		numUsers--;
 		if(numUsers>0){
+			socket.emit('left', getId(userIds.arr,socket.id).userName);
 			console.log(getId(userIds.arr, socket.id).userName + ": Left");
 		}
 		else{

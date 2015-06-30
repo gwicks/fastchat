@@ -54,6 +54,9 @@
       socket.on('erase chat', function(message){
         $('#messages').empty();
       });
+      socket.on('left', function(user){
+        $('#messages').append("<li>" + user + " left");
+      });
     </script>
   </body>
 </html>
