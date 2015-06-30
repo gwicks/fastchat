@@ -45,6 +45,9 @@
       socket.on('shrug', function(obj) {
         $('#messages').append("<li>" + obj.id + ": " + "<img src='http://media.giphy.com/media/y65VoOlimZaus/giphy.gif' /></li><br><br>");
       });
+      socket.on('numusers', function(obj) {
+        $('#messages').append("<li>OP: " + obj.count);
+      });
       socket.on('erase chat', function(message){
         $('#messages').empty();
       });
