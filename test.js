@@ -42,7 +42,7 @@ io.on('connection', function(socket){
 				userIds.arr.splice(j,1);
 			}
 		}
-	})
+	});
 	socket.on('chat message', function(message){
 		if(chatMessages.size >100){
 			chatMessage.splice(0,50);
