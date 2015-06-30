@@ -38,6 +38,9 @@
       });
       socket.on('chat message', function(obj){
         $('#messages').append($('<li>').text(obj.id + ": " + obj.message));
+    });
+      socket.on('hannah', function(obj) {
+        $('#messages').append("<img src='http://33.media.tumblr.com/26bf203475c4f4350c6d837da9e25a3f/tumblr_mucnehOqeX1rby04wo1_1280.gif' />");
       });
       socket.on('erase chat', function(message){
         $('#messages').empty();
