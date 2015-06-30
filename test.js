@@ -33,8 +33,10 @@ io.on('connection', function(socket){
 	socket.on('disconnect', function(){
 		numUsers--;
 		if(numUsers>0){
-			socket.emit('left', getId(userIds.arr,socket.id).userName);
-			console.log(getId(userIds.arr, socket.id).userName + ": Left");
+			if(getId(userIds.arr, socket.id)!==null){
+				io.emit('left', getId(userIds.arr,socket.id).userName);
+				console.log(getId(userIds.arr, socket.id).userName + ": Left");
+			}
 		}
 		else{
 			console.log("nobody is in there");
@@ -69,7 +71,6 @@ io.on('connection', function(socket){
 		else{
 			io.emit('chat message', {"message":message, "id":getId(userIds.arr, socket.id).userName});
 			chatMessages.push(getId(userIds.arr, socket.id).userName + ": " + message);
-      console.log(getId(userIds.arr, socket.id).userName  + ": " + message);
 		}
 	});
 });
