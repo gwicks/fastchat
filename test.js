@@ -47,6 +47,9 @@ io.on('connection', function(socket){
                 else if (message=='/hannah') {
                         io.emit('hannah', {"id":getId(userIds.arr, socket.id).userName}); 
                 }
+                else if (message=='/shrug') {
+                        io.emit('shrug', {"id":getId(userIds.arr, socket.id).userName});
+                }
 		else{
 			io.emit('chat message', {"message":message, "id":getId(userIds.arr, socket.id).userName});
 			chatMessages.push(getId(userIds.arr, socket.id).userName + ": " + message);
