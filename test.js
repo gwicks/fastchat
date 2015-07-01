@@ -11,7 +11,6 @@ function getId(arr, id){
 			return arr[i];
 		}
 	}
-	console.log("RETURNING NULL");
 	return null;
 }
 
@@ -22,7 +21,6 @@ function getGiphy(query) {
         var rawJSON = JSON.parse(body);
         rawJSON = rawJSON["data"][0]["images"]["original"];
         var url = rawJSON["url"];
-        console.log(url);
         io.emit('giphy', {"message":query, "gurl":url, "id":getId(userIds.arr, socket.id).userName});
        } 
     });
@@ -52,7 +50,6 @@ io.on('connection', function(socket){
 	});
 	socket.on('disconnect', function(){
 		numUsers--;
-		console.log("Number of Users: " + numUsers);
 		if(numUsers>0){
 			if(getId(userIds.arr, socket.id)!==null){
 				io.emit('left', getId(userIds.arr,socket.id).userName);
@@ -62,7 +59,6 @@ io.on('connection', function(socket){
 		else{
 			console.log("nobody is in there");
 		}
-		console.log("Number of Users: " + numUsers);
 		for(var j = 0; j<userIds.arr.length; j++){
 			if(userIds.arr[j].idNum===socket.id){
 				userIds.arr.splice(j,1);
@@ -80,9 +76,15 @@ io.on('connection', function(socket){
 		}
     else if (message==='/hannah') {
             io.emit('hannah', {"id":getId(userIds.arr, socket.id).userName});
+            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://33.media.tumblr.com/26bf203475c4f4350c6d837da9e25a3f/tumblr_mucnehOqeX1rby04wo1_1280.gif' /></li><br><br>"); 
+    }
+    else if (message==='/greg') {
+            io.emit('greg', {"id":getId(userIds.arr, socket.id).userName});
+            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/GFLcKd6MXid2M/giphy.gif' /></li><br><br>"); 
     }
     else if (message==='/reenu') {
             io.emit('reenu', {"id":getId(userIds.arr, socket.id).userName});
+            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/PFXmxJoyTNfDG/giphy.gif' /></li><br><br>' /></li><br><br>"); 
     }
     else if (message==='/shrug') {
             io.emit('shrug', {"id":getId(userIds.arr, socket.id).userName});
@@ -99,7 +101,6 @@ io.on('connection', function(socket){
             if (content.length > 1 && content[1] != '') {
                 var content = content.slice(1);
                 var endpoint = "http://api.giphy.com/v1/gifs/search?q=" + content.join('+') + "&api_key=dc6zaTOxFJmzC";
-                console.log(endpoint);
                 request(endpoint, function(error,response,body) {
                     if (!error) {
                     var rawJSON = JSON.parse(body);
