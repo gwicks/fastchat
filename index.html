@@ -51,6 +51,7 @@
       });
       socket.on('chat message', function(obj){
         $('#messages').append("<li>" + obj.id + ": " + obj.message + "</li>");
+        $('#message-container').scrollTop(10000);        
     });
       socket.on('cutmessages', function(data){
         $('#messages').empty();
