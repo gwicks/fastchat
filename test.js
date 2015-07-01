@@ -80,9 +80,15 @@ io.on('connection', function(socket){
 		}
     else if (message==='/hannah') {
             io.emit('hannah', {"id":getId(userIds.arr, socket.id).userName});
+            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://33.media.tumblr.com/26bf203475c4f4350c6d837da9e25a3f/tumblr_mucnehOqeX1rby04wo1_1280.gif' /></li><br><br>"); 
+    }
+    else if (message==='/greg') {
+            io.emit('greg', {"id":getId(userIds.arr, socket.id).userName});
+            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/GFLcKd6MXid2M/giphy.gif' /></li><br><br>"); 
     }
     else if (message==='/reenu') {
             io.emit('reenu', {"id":getId(userIds.arr, socket.id).userName});
+            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/PFXmxJoyTNfDG/giphy.gif' /></li><br><br>' /></li><br><br>"); 
     }
     else if (message==='/shrug') {
             io.emit('shrug', {"id":getId(userIds.arr, socket.id).userName});
