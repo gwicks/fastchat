@@ -22,7 +22,7 @@ function getGiphy(query) {
         rawJSON = rawJSON["data"][0]["images"]["original"];
         var url = rawJSON["url"];
         io.emit('giphy', {"message":query, "gurl":url, "id":getId(userIds.arr, socket.id).userName});
-       } 
+       }
     });
 }
 
@@ -34,8 +34,10 @@ app.get('/', function(request, response){
 });
 
 io.on('connection', function(socket){
-	numUsers++;
-	console.log("Number of Users: " + numUsers);
+	for(var i = 0; i<chatMessages.length; i++){
+		console.log(i + ": " + chatMessages[i]);
+	}
+	++numUsers;
 	socket.emit('pageload', chatMessages);
 	socket.on("username", function(name){
 		var val = socket.id;
@@ -47,18 +49,22 @@ io.on('connection', function(socket){
 			}
 		}
 		userIds.arr.push({"idNum": val, "userName": name});
+		console.log(name + " joined.");
+		//chatMessages.push("<i>" + name + " joined.</i>");
 	});
 	socket.on('disconnect', function(){
-		numUsers--;
+		--numUsers;
 		if(numUsers>0){
 			if(getId(userIds.arr, socket.id)!==null){
 				io.emit('left', getId(userIds.arr,socket.id).userName);
+				//chatMessages.push("<i>" + userIds.arr[j].userName + ": Left</i>");
 				console.log(getId(userIds.arr, socket.id).userName + ": Left");
 			}
 		}
 		else{
 			console.log("nobody is in there");
 		}
+
 		for(var j = 0; j<userIds.arr.length; j++){
 			if(userIds.arr[j].idNum===socket.id){
 				userIds.arr.splice(j,1);
@@ -76,26 +82,29 @@ io.on('connection', function(socket){
 		}
     else if (message==='/hannah') {
             io.emit('hannah', {"id":getId(userIds.arr, socket.id).userName});
-            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://33.media.tumblr.com/26bf203475c4f4350c6d837da9e25a3f/tumblr_mucnehOqeX1rby04wo1_1280.gif' /></li><br><br>"); 
+            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://33.media.tumblr.com/26bf203475c4f4350c6d837da9e25a3f/tumblr_mucnehOqeX1rby04wo1_1280.gif' /></li><br><br>");
     }
     else if (message==='/greg') {
             io.emit('greg', {"id":getId(userIds.arr, socket.id).userName});
-            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/GFLcKd6MXid2M/giphy.gif' /></li><br><br>"); 
+            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/GFLcKd6MXid2M/giphy.gif' /></li><br><br>");
     }
     else if (message==='/reenu') {
             io.emit('reenu', {"id":getId(userIds.arr, socket.id).userName});
-            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/PFXmxJoyTNfDG/giphy.gif' /></li><br><br>"); 
+            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/PFXmxJoyTNfDG/giphy.gif' /></li><br><br>");
     }
     else if (message==='/shrug') {
             io.emit('shrug', {"id":getId(userIds.arr, socket.id).userName});
-            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/y65VoOlimZaus/giphy.gif' /></li><br><br>"); 
+            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/y65VoOlimZaus/giphy.gif' /></li><br><br>");
     }
     else if (message==='/numusers') {
             io.emit('numusers', {"count":numUsers});
+						chatMessages.push("OP: " + numUsers);
     }
-    else if(message==='/changename'){
-	    io.emit('changename', {});
-    }
+		else if(message.indexOf("/changename")>-1){
+			var name = message.slice(12,message.length);
+			chatMessages.push(getId(userIds.arr, socket.id).userName + ": changed name to " + name + ".");
+			io.emit('changename',name);
+		}
     else if (message.indexOf('/giphy') > -1) {
             var content = message.split(' ');
             if (content.length > 1 && content[1] != '') {
@@ -106,9 +115,9 @@ io.on('connection', function(socket){
                     var rawJSON = JSON.parse(body);
                     rawJSON = rawJSON["data"][0]["images"]["original"];
                     var url = rawJSON["url"];
-                    console.log(url);
+										chatMessages.push(getId(userIds.arr, socket.id).userName+ " " + content.join(' ')+ " " + url);
                     io.emit('giphy', {"message":content.join(' '), "gurl":url, "id":getId(userIds.arr, socket.id).userName});
-                } 
+                }
                 });
             }
     }

@@ -45,13 +45,14 @@
           var userName = getName('name');
         }
         socket.emit("username", userName);
+        $('#messages').append("<li><i>" + userName + " joined.</i></li>");
         for(var i = 0; i<data.length; i++){
           $('#messages').append("<li>" + data[i] + "</li>");
         }
       });
       socket.on('chat message', function(obj){
         $('#messages').append("<li>" + obj.id + ": " + obj.message + "</li>");
-        $('#message-container').scrollTop(10000);        
+        $('#message-container').scrollTop(10000);
     });
       socket.on('cutmessages', function(data){
         $('#messages').empty();
@@ -80,13 +81,13 @@
       socket.on('erase chat', function(message){
         $('#messages').empty();
       });
-      socket.on('changename', function(nada){
-        var userName = prompt("Please enter a new name:");
-        document.cookie="name="+userName;
-        socket.emit("username", userName);
+      socket.on('changename', function(name){
+        $('#messages').append("<li><i>"+getName("name") + " changed name to " + name + "</i></li>");
+        document.cookie="name="+name;
+        socket.emit("username", name);
       });
       socket.on('left', function(user){
-        $('#messages').append("<li>" + user + " left.");
+        $('#messages').append("<li><i>" + user + " left.</i>");
       });
     </script>
   </body>
