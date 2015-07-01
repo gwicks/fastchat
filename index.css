@@ -33,7 +33,6 @@ li{
   bottom: 0px;
   position: absolute;
   display:block;
-  overflow: scroll;
 }
 
 #typebar input{
