@@ -49,11 +49,16 @@
         for(var i = 0; i<data.length; i++){
           $('#messages').append("<li>" + data[i] + "</li>");
         }
+        var messagesize= $(window).height() - 45;
+        $('#message-container').css('height', '' + messagesize + 'px');
+        $('#message-container').scrollTop(10000);
+        messagesize = messagesize + 2;
+        $('#typebar').css('top','' + messagesize + 'px');
       });
       socket.on('chat message', function(obj){
         $('#messages').append("<li>" + obj.id + ": " + obj.message + "</li>");
         $('#message-container').scrollTop(10000);
-    });
+      });
       socket.on('cutmessages', function(data){
         $('#messages').empty();
         for(var i = 0; i<data.length; i++){
@@ -61,16 +66,16 @@
         }
       });
       socket.on('hannah', function(obj) {
-          $('#messages').append("<li>" + obj.id + ": " + "<img src='http://33.media.tumblr.com/26bf203475c4f4350c6d837da9e25a3f/tumblr_mucnehOqeX1rby04wo1_1280.gif' /></li><br><br>");
+          $('#messages').append("<li>" + obj.id + ": " + "<br><img src='http://33.media.tumblr.com/26bf203475c4f4350c6d837da9e25a3f/tumblr_mucnehOqeX1rby04wo1_1280.gif' /></li><br><br>");
       });
       socket.on('greg', function(obj) {
-          $('#messages').append("<li>" + obj.id + ": " + "<img src='http://media.giphy.com/media/GFLcKd6MXid2M/giphy.gif' /></li><br><br>");
+          $('#messages').append("<li>" + obj.id + ": " + "<br><img src='http://media.giphy.com/media/GFLcKd6MXid2M/giphy.gif' /></li><br><br>");
       });
       socket.on('reenu', function(obj) {
-          $('#messages').append("<li>" + obj.id + ": " + "<img src='http://media.giphy.com/media/PFXmxJoyTNfDG/giphy.gif' /></li><br><br>");
+          $('#messages').append("<li>" + obj.id + ": " + "<br><img src='http://media.giphy.com/media/PFXmxJoyTNfDG/giphy.gif' /></li><br><br>");
       });
       socket.on('shrug', function(obj) {
-        $('#messages').append("<li>" + obj.id + ": " + "<img src='http://media.giphy.com/media/y65VoOlimZaus/giphy.gif' /></li><br><br>");
+        $('#messages').append("<li>" + obj.id + ": " + "<br><img src='http://media.giphy.com/media/y65VoOlimZaus/giphy.gif' /></li><br><br>");
       });
       socket.on('giphy', function(obj) {
           $('#messages').append("<li>" + obj.id + ": " + "<b>" + obj.message + "</b><br>" +  "<img src='" + obj.gurl + "' /></li>");
