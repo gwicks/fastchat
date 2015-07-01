@@ -91,9 +91,9 @@ io.on('connection', function(socket){
     else if (message==='/numusers') {
             io.emit('numusers', {"count":numUsers});
     }
-		else if(message==='/changename'){
-						io.emit('changename', {});
-		}
+    else if(message==='/changename'){
+	    io.emit('changename', {});
+    }
     else if (message.indexOf('/giphy') > -1) {
             var content = message.split(' ');
             if (content.length > 1) {
