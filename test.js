@@ -84,7 +84,7 @@ io.on('connection', function(socket){
     }
     else if (message==='/reenu') {
             io.emit('reenu', {"id":getId(userIds.arr, socket.id).userName});
-            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/PFXmxJoyTNfDG/giphy.gif' /></li><br><br>' /></li><br><br>"); 
+            chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/PFXmxJoyTNfDG/giphy.gif' /></li><br><br>"); 
     }
     else if (message==='/shrug') {
             io.emit('shrug', {"id":getId(userIds.arr, socket.id).userName});
