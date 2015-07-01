@@ -11,6 +11,7 @@ function getId(arr, id){
 			return arr[i];
 		}
 	}
+	console.log("RETURNING NULL");
 	return null;
 }
 
@@ -40,12 +41,23 @@ io.on('connection', function(socket){
 	socket.emit('pageload', chatMessages);
 	socket.on("username", function(name){
 		var val = socket.id;
+		if(getId(userIds.arr,socket.id)!==null){
+			for(var j = 0; j<userIds.arr.length; j++){
+				if(userIds.arr[j].idNum===socket.id){
+					userIds.arr.splice(j,1);
+				}
+			}
+		}
 		userIds.arr.push({"idNum": val, "userName": name});
 	});
 	socket.on('disconnect', function(){
 		numUsers--;
+		console.log("Number of Users: " + numUsers);
 		if(numUsers>0){
-			console.log(getId(userIds.arr, socket.id).userName + ": Left");
+			if(getId(userIds.arr, socket.id)!==null){
+				io.emit('left', getId(userIds.arr,socket.id).userName);
+				console.log(getId(userIds.arr, socket.id).userName + ": Left");
+			}
 		}
 		else{
 			console.log("nobody is in there");
@@ -58,26 +70,30 @@ io.on('connection', function(socket){
 		}
 	});
 	socket.on('chat message', function(message){
-		if(chatMessages.size >100){
-			chatMessage.splice(0,50);
+		if(chatMessages.length >100){
+			chatMessages.splice(0,50);
+			io.emit("cutmessages", chatMessages);
 		}
 		if(message=='/erase'){
 			io.emit('erase chat');
 			chatMessages = [];
 		}
-    else if (message=='/hannah') {
+    else if (message==='/hannah') {
             io.emit('hannah', {"id":getId(userIds.arr, socket.id).userName});
     }
-    else if (message=='/reenu') {
+    else if (message==='/reenu') {
             io.emit('reenu', {"id":getId(userIds.arr, socket.id).userName});
     }
-    else if (message=='/shrug') {
+    else if (message==='/shrug') {
             io.emit('shrug', {"id":getId(userIds.arr, socket.id).userName});
             chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/y65VoOlimZaus/giphy.gif' /></li><br><br>"); 
     }
-    else if (message=='/numusers') {
+    else if (message==='/numusers') {
             io.emit('numusers', {"count":numUsers});
     }
+		else if(message==='/changename'){
+						io.emit('changename', {});
+		}
     else if (message.indexOf('/giphy') > -1) {
             var content = message.split(' ');
             if (content.length > 1) {
@@ -95,11 +111,10 @@ io.on('connection', function(socket){
                 });
             }
     }
-		else{
-			io.emit('chat message', {"message":message, "id":getId(userIds.arr, socket.id).userName});
-			chatMessages.push(getId(userIds.arr, socket.id).userName + ": " + message);
-      console.log(getId(userIds.arr, socket.id).userName  + ": " + message);
-		}
+    else {
+	    io.emit('chat message', {"message":message, "id":getId(userIds.arr, socket.id).userName});
+	    chatMessages.push(getId(userIds.arr, socket.id).userName + ": " + message);
+    }
 	});
 });
 
