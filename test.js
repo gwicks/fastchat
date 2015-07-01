@@ -80,16 +80,20 @@ io.on('connection', function(socket){
     }
     else if (message.indexOf('/giphy') > -1) {
             var content = message.split(' ');
-            var endpoint = "http://api.giphy.com/v1/gifs/search?q=" + content[1] + "&api_key=dc6zaTOxFJmzC";
-            request(endpoint, function(error,response,body) {
-               if (!error) {
-                var rawJSON = JSON.parse(body);
-                rawJSON = rawJSON["data"][0]["images"]["original"];
-                var url = rawJSON["url"];
-                console.log(url);
-                io.emit('giphy', {"message":content[1], "gurl":url, "id":getId(userIds.arr, socket.id).userName});
-               } 
-            });
+            if (content.length > 1) {
+                var content = content.slice(1);
+                var endpoint = "http://api.giphy.com/v1/gifs/search?q=" + content.join('+') + "&api_key=dc6zaTOxFJmzC";
+                console.log(endpoint);
+                request(endpoint, function(error,response,body) {
+                    if (!error) {
+                    var rawJSON = JSON.parse(body);
+                    rawJSON = rawJSON["data"][0]["images"]["original"];
+                    var url = rawJSON["url"];
+                    console.log(url);
+                    io.emit('giphy', {"message":content.join(' '), "gurl":url, "id":getId(userIds.arr, socket.id).userName});
+                } 
+                });
+            }
     }
 		else{
 			io.emit('chat message', {"message":message, "id":getId(userIds.arr, socket.id).userName});
