@@ -96,7 +96,7 @@ io.on('connection', function(socket){
     }
     else if (message.indexOf('/giphy') > -1) {
             var content = message.split(' ');
-            if (content.length > 1) {
+            if (content.length > 1 && content[1] != '') {
                 var content = content.slice(1);
                 var endpoint = "http://api.giphy.com/v1/gifs/search?q=" + content.join('+') + "&api_key=dc6zaTOxFJmzC";
                 console.log(endpoint);
