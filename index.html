@@ -58,7 +58,7 @@
       });
       socket.on('disconnect', function(){
         //$('#messages').append("<li><i>" + getName('name') + " left</i></li>");
-        socket.emit("add", "<i>" + getName('name') + " left</i>");
+        socket.emit("add", "<i>" + getName('name') + " leftDISCONNECT</i>");
       });
       socket.on('chat message', function(obj){
         $('#messages').append("<li>" + obj.id + ": " + obj.message + "</li>");
@@ -104,7 +104,7 @@
         }
       });
       socket.on('left', function(user){
-        socket.emit("add", "<i>" + user + " left.</i>");
+        socket.emit("add", "<i>" + user + " leftLEFT.</i>");
       });
     </script>
   </body>
