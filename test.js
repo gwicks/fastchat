@@ -4,6 +4,8 @@ var fs = require('fs');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var request = require('request');
+var random = require('random-js');
+var engine = random.engines.mt19937().autoSeed();
 
 function getId(arr, id){
 	for(var i = 0; i<arr.length; i++){
@@ -133,7 +135,8 @@ io.on('connection', function(socket){
                     if (!error) {
                     var rawJSON = JSON.parse(body);
                     if (rawJSON["data"]) {
-                        rawJSON = rawJSON["data"][0]["images"]["original"];
+                        var selIndex = random.integer(0, (rawJSON["data"].length - 1))(engine);
+                        rawJSON = rawJSON["data"][selIndex]["images"]["original"];
                         var url = rawJSON["url"];
 		        chatMessages.push(getId(userIds.arr, socket.id).userName+ " " + content.join(' ')+ " " + "<img src='" + url + "' />");
                         io.emit('giphy', {"message":content.join(' '), "gurl":url, "id":getId(userIds.arr, socket.id).userName});
