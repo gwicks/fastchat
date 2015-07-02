@@ -14,6 +14,18 @@ function getId(arr, id){
 	return null;
 }
 
+function unique(a){
+        a.sort();
+        for(var i = 1; i < a.length; ){
+            if(a[i-1].userName == a[i].userName){
+                a.splice(i, 1);
+            } else {
+                i++;
+            }
+        }
+        return a;
+} 
+
 function getGiphy(query) {
     var endpoint = "http://api.giphy.com/v1/gifs/search?q=" + query + "&api_key=dc6zaTOxFJmzC";
     request(endpoint, function(error,response,body) {
@@ -46,7 +58,9 @@ io.on('connection', function(socket){
 			}
 		}
 		userIds.arr.push({"idNum": val, "userName": name});
+                userIds.arr = unique(userIds.arr);
 		console.log(name + " joined.");
+                io.emit('update list', userIds.arr);
 	});
 	socket.on("add", function(message){
 		chatMessages.push(message);
@@ -56,7 +70,6 @@ io.on('connection', function(socket){
 		io.emit('info message', message);
 	});
 	socket.on('disconnect', function(){
-		setTimeout(function() {
 		if(numUsers > 0) {
 			if(getId(userIds.arr, socket.id) !== null){
 				io.emit('left', getId(userIds.arr,socket.id).userName);
@@ -74,7 +87,8 @@ io.on('connection', function(socket){
 				userIds.arr.splice(j,1);
 			}
 		}
-		}, 10000);
+                userIds.arr = unique(userIds.arr);
+                io.emit('update list', userIds.arr);
 	});
 	socket.on('chat message', function(message){
 		if(chatMessages.length >100){
