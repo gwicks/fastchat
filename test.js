@@ -56,6 +56,7 @@ io.on('connection', function(socket){
 		io.emit('info message', message);
 	});
 	socket.on('disconnect', function(){
+		setTimeout(function() {
 		if(numUsers > 0) {
 			if(getId(userIds.arr, socket.id) !== null){
 				io.emit('left', getId(userIds.arr,socket.id).userName);
@@ -73,6 +74,7 @@ io.on('connection', function(socket){
 				userIds.arr.splice(j,1);
 			}
 		}
+		}, 10000);
 	});
 	socket.on('chat message', function(message){
 		if(chatMessages.length >100){
