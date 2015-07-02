@@ -61,3 +61,8 @@ li{
 #typebar button:hover{
   color: rgb(70, 29, 48);
 }
+
+#user-list {
+  position: absolute;
+  left: 80%;
+}
