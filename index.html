@@ -45,18 +45,27 @@
           var userName = getName('name');
         }
         socket.emit("username", userName);
-        $('#messages').append("<li><i>" + userName + " joined.</i></li>");
+        //socket.emit("add", "<i>" + userName + " joined.</i>");
         for(var i = 0; i<data.length; i++){
           $('#messages').append("<li>" + data[i] + "</li>");
         }
+        socket.emit("add", "<i>" + userName + " joined.</i>");
         var messagesize= $(window).height() - 45;
         $('#message-container').css('height', '' + messagesize + 'px');
         $('#message-container').scrollTop(10000);
         messagesize = messagesize + 2;
         $('#typebar').css('top','' + messagesize + 'px');
       });
+      socket.on('disconnect', function(){
+        //$('#messages').append("<li><i>" + getName('name') + " left</i></li>");
+        socket.emit("add", "<i>" + getName('name') + " left</i>");
+      });
       socket.on('chat message', function(obj){
         $('#messages').append("<li>" + obj.id + ": " + obj.message + "</li>");
+        $('#message-container').scrollTop(10000);
+      });
+      socket.on('info message', function(message){
+        $('#messages').append("<li>" + message + "</li>");
         $('#message-container').scrollTop(10000);
       });
       socket.on('cutmessages', function(data){
@@ -86,13 +95,17 @@
       socket.on('erase chat', function(message){
         $('#messages').empty();
       });
-      socket.on('changename', function(name){
-        $('#messages').append("<li><i>"+getName("name") + " changed name to " + name + "</i></li>");
-        document.cookie="name="+name;
-        socket.emit("username", name);
+      socket.on('changename', function(obj){
+        //$('#messages').append("<li><i>"+getName("name") + " changed name to " + name + "</i></li>");
+        if(getName("name")===obj.oldName){
+          socket.emit("add", "<i>"+obj.oldName + " changed name to " + obj.newName + "</i>");
+          window.alert("in if");
+          document.cookie="name="+obj.newName;
+          socket.emit("username", obj.newName);
+        }
       });
       socket.on('left', function(user){
-        $('#messages').append("<li><i>" + user + " left.</i>");
+        socket.emit("add", "<i>" + user + " left.</i>");
       });
     </script>
   </body>

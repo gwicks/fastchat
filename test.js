@@ -37,6 +37,7 @@ io.on('connection', function(socket){
 	for(var i = 0; i<chatMessages.length; i++){
 		console.log(i + ": " + chatMessages[i]);
 	}
+	console.log("after for loop");
 	++numUsers;
 	socket.emit('pageload', chatMessages);
 	socket.on("username", function(name){
@@ -51,6 +52,10 @@ io.on('connection', function(socket){
 		userIds.arr.push({"idNum": val, "userName": name});
 		console.log(name + " joined.");
 		//chatMessages.push("<i>" + name + " joined.</i>");
+	});
+	socket.on("add", function(message){
+		chatMessages.push(message);
+		io.emit('info message', message);
 	});
 	socket.on('disconnect', function(){
 		--numUsers;
@@ -103,7 +108,7 @@ io.on('connection', function(socket){
 		else if(message.indexOf("/changename")>-1){
 			var name = message.slice(12,message.length);
 			chatMessages.push(getId(userIds.arr, socket.id).userName + ": changed name to " + name + ".");
-			io.emit('changename',name);
+			io.emit('changename',{"newName":name, "oldName": getId(userIds.arr, socket.id).userName});
 		}
     else if (message.indexOf('/giphy') > -1) {
             var content = message.split(' ');
