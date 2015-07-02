@@ -14,7 +14,6 @@
     </div>
     <div id="user-list">
         <ul id="users">
-            <li>test user</li>
         </ul>
     </div>
     <form id="typebar" action="">
@@ -109,9 +108,9 @@
       });
       socket.on('update list', function(users) {
           console.log(users);
-          $('#user-list').empty();
+          $('#users').empty();
           for (var s = 0; s < users.length; s++) {
-              $('#user-list').append("<li>" + users[s].userName + "</li>");
+              $('#users').append("<li>" + users[s].userName + "</li>");
           }
       });
     </script>

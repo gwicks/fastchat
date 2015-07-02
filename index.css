@@ -65,4 +65,17 @@ li{
 #user-list {
   position: absolute;
   left: 80%;
+  width: 100%;
+}
+
+#users {
+  list-style-type: none;
+}
+
+#users li {
+  width: 100%;
+}
+
+#users li:nth-child(odd) {
+  background: #EDEDED;
 }
