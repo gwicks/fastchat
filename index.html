@@ -107,6 +107,13 @@
       socket.on('left', function(user){
         socket.emit("addLeave", "<i>" + user + " left</i>");
       });
+      socket.on('update list', function(users) {
+          console.log(users);
+          $('#user-list').empty();
+          for (var s = 0; s < users.length; s++) {
+              $('#user-list').append("<li>" + users[s].userName + "</li>");
+          }
+      });
     </script>
   </body>
 </html>
