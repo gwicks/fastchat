@@ -118,10 +118,12 @@ io.on('connection', function(socket){
                 request(endpoint, function(error,response,body) {
                     if (!error) {
                     var rawJSON = JSON.parse(body);
-                    rawJSON = rawJSON["data"][0]["images"]["original"];
-                    var url = rawJSON["url"];
-										chatMessages.push(getId(userIds.arr, socket.id).userName+ " " + content.join(' ')+ " " + url);
-                    io.emit('giphy', {"message":content.join(' '), "gurl":url, "id":getId(userIds.arr, socket.id).userName});
+                    if (rawJSON["data"]) {
+                        rawJSON = rawJSON["data"][0]["images"]["original"];
+                        var url = rawJSON["url"];
+		        chatMessages.push(getId(userIds.arr, socket.id).userName+ " " + content.join(' ')+ " " + url);
+                        io.emit('giphy', {"message":content.join(' '), "gurl":url, "id":getId(userIds.arr, socket.id).userName});
+                    }
                 }
                 });
             }

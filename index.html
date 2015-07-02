@@ -99,7 +99,6 @@
         //$('#messages').append("<li><i>"+getName("name") + " changed name to " + name + "</i></li>");
         if(getName("name")===obj.oldName){
           socket.emit("add", "<i>"+obj.oldName + " changed name to " + obj.newName + "</i>");
-          window.alert("in if");
           document.cookie="name="+obj.newName;
           socket.emit("username", obj.newName);
         }
