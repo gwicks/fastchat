@@ -73,7 +73,7 @@ li{
 }
 
 #users li {
-  width: 100%;
+  width: 20%;
 }
 
 #users li:nth-child(odd) {
