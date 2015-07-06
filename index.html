@@ -53,7 +53,6 @@
         for(var i = 0; i<data.length; i++){
           $('#messages').append("<li>" + data[i] + "</li>");
         }
-        socket.emit("add", "<i>" + userName + " joined.</i>");
         var messagesize= $(window).height() - 45;
         $('#message-container').css('height', '' + messagesize + 'px');
         $('#message-container').scrollTop(10000);
@@ -112,11 +111,7 @@
           socket.emit("username", obj.newName);
         }
       });
-      socket.on('left', function(user){
-        socket.emit("addLeave", "<i>" + user + " left</i>");
-      });
       socket.on('update list', function(users) {
-          console.log(users);
           $('#users').empty();
           for (var s = 0; s < users.length; s++) {
               $('#users').append("<li>" + users[s].userName + "</li>");
