@@ -26,7 +26,7 @@ function unique(a){
             }
         }
         return a;
-} 
+}
 
 
 var chatMessages = [];
@@ -57,16 +57,8 @@ io.on('connection', function(socket){
 		chatMessages.push(message);
 		io.emit('info message', message);
 	});
-	socket.on("addLeave", function(message){
-		io.emit('info message', message);
-	});
 	socket.on('disconnect', function(){
 		if(numUsers > 0) {
-			if(getId(userIds.arr, socket.id) !== null){
-				io.emit('left', getId(userIds.arr,socket.id).userName);
-				chatMessages.push("<i>" + getId(userIds.arr, socket.id).userName + " left.</i>");
-				console.log(getId(userIds.arr, socket.id).userName + " left.");
-			}
 			--numUsers;
 		}
 		else{
@@ -89,6 +81,9 @@ io.on('connection', function(socket){
 		if(message=='/erase'){
 			io.emit('erase chat');
 			chatMessages = [];
+		}
+		else if (message =="/scroll"){
+						io.emit('scroll');
 		}
     else if (message==='/hannah') {
             io.emit('hannah', {"id":getId(userIds.arr, socket.id).userName});
