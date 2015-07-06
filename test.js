@@ -115,8 +115,17 @@ io.on('connection', function(socket){
     }
     else if(message.indexOf("/changename")>-1){
 	    var name = message.slice(12,message.length);
-	    chatMessages.push(getId(userIds.arr, socket.id).userName + ": changed name to " + name + ".");
-	    io.emit('changename',{"newName":name, "oldName": getId(userIds.arr, socket.id).userName});
+	    var valid = true;
+	    for (var x = 0; x < userIds.arr.length; x++) {
+		if ( userIds.arr[x].userName == name)
+		{
+			valid = false;	
+		}
+	    }
+	    if (valid) {
+	    	chatMessages.push(getId(userIds.arr, socket.id).userName + ": changed name to " + name + ".");
+	    	io.emit('changename',{"newName":name, "oldName": getId(userIds.arr, socket.id).userName});
+	    }
     }
     else if (message.indexOf('/giphy') > -1) {
             var content = message.split(' ');
