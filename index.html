@@ -98,6 +98,9 @@
           $('#messages').append("<li>OP: " + obj.count);
           $('#message-container').scrollTop(10000);
       });
+      socket.on('scroll', function() {
+          $('#message-container').scrollTop(10000);
+      });
       socket.on('erase chat', function(message){
         $('#messages').empty();
       });

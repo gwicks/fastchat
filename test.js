@@ -26,7 +26,7 @@ function unique(a){
             }
         }
         return a;
-} 
+}
 
 function getGiphy(query) {
     var endpoint = "http://api.giphy.com/v1/gifs/search?q=" + query + "&api_key=dc6zaTOxFJmzC";
@@ -100,6 +100,9 @@ io.on('connection', function(socket){
 		if(message=='/erase'){
 			io.emit('erase chat');
 			chatMessages = [];
+		}
+		else if (message =="/scroll"){
+						io.emit('scroll');
 		}
     else if (message==='/hannah') {
             io.emit('hannah', {"id":getId(userIds.arr, socket.id).userName});
