@@ -28,17 +28,6 @@ function unique(a){
         return a;
 } 
 
-function getGiphy(query) {
-    var endpoint = "http://api.giphy.com/v1/gifs/search?q=" + query + "&api_key=dc6zaTOxFJmzC";
-    request(endpoint, function(error,response,body) {
-       if (!error) {
-        var rawJSON = JSON.parse(body);
-        rawJSON = rawJSON["data"][0]["images"]["original"];
-        var url = rawJSON["url"];
-        io.emit('giphy', {"message":query, "gurl":url, "id":getId(userIds.arr, socket.id).userName});
-       }
-    });
-}
 
 var chatMessages = [];
 var numUsers = 0;
