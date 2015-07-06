@@ -93,6 +93,9 @@
           $('#messages').append("<li>" + obj.id + ": " + "<b>" + obj.message + "</b><br>" +  "<img src='" + obj.gurl + "' /></li>");
           $('#message-container').scrollTop(10000);
       });
+      socket.on('user self', function(obj) {
+          $('#messages').append("<li><i>" + obj.id + " " + obj.message + "</i></li>");;
+      });
       socket.on('numusers', function(obj) {
           $('#messages').append("<li>OP: " + obj.count);
           $('#message-container').scrollTop(10000);

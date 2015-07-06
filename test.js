@@ -28,17 +28,6 @@ function unique(a){
         return a;
 }
 
-function getGiphy(query) {
-    var endpoint = "http://api.giphy.com/v1/gifs/search?q=" + query + "&api_key=dc6zaTOxFJmzC";
-    request(endpoint, function(error,response,body) {
-       if (!error) {
-        var rawJSON = JSON.parse(body);
-        rawJSON = rawJSON["data"][0]["images"]["original"];
-        var url = rawJSON["url"];
-        io.emit('giphy', {"message":query, "gurl":url, "id":getId(userIds.arr, socket.id).userName});
-       }
-    });
-}
 
 var chatMessages = [];
 var numUsers = 0;
@@ -114,13 +103,21 @@ io.on('connection', function(socket){
     }
     else if (message==='/numusers') {
             io.emit('numusers', {"count":numUsers});
-						chatMessages.push("OP: " + numUsers);
+	    chatMessages.push("OP: " + numUsers);
     }
-		else if(message.indexOf("/changename")>-1){
-			var name = message.slice(12,message.length);
-			chatMessages.push(getId(userIds.arr, socket.id).userName + ": changed name to " + name + ".");
-			io.emit('changename',{"newName":name, "oldName": getId(userIds.arr, socket.id).userName});
-		}
+    else if (message.indexOf('/self') > -1) {
+            var content = message.split(' ');
+            if (content.length > 1 && content[1] != '') {
+                content = content.slice(1);
+                var message = content.join(' ');
+                io.emit('user self', {"id":getId(userIds.arr, socket.id).userName, "message":message});
+            }
+    }
+    else if(message.indexOf("/changename")>-1){
+	    var name = message.slice(12,message.length);
+	    chatMessages.push(getId(userIds.arr, socket.id).userName + ": changed name to " + name + ".");
+	    io.emit('changename',{"newName":name, "oldName": getId(userIds.arr, socket.id).userName});
+    }
     else if (message.indexOf('/giphy') > -1) {
             var content = message.split(' ');
             if (content.length > 1 && content[1] != '') {
