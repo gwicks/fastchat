@@ -92,7 +92,7 @@
       });
       socket.on('giphy', function(obj) {
           $('#messages').append("<li>" + obj.id + ": " + "<b>" + obj.message + "</b><br>" +  "<img src='" + obj.gurl + "' /></li>");
-          $('#message-container').scrollTop(1000000);
+          $('#message-container').scrollTop(10000);
       });
       socket.on('numusers', function(obj) {
           $('#messages').append("<li>OP: " + obj.count);
