@@ -120,6 +120,7 @@ io.on('connection', function(socket){
 		if ( userIds.arr[x].userName == name)
 		{
 			valid = false;	
+                        break;
 		}
 	    }
 	    if (valid) {
