@@ -110,25 +110,37 @@ io.on('connection', function(socket){
                 else if (message =="/scroll"){
                     io.emit('scroll');
                 }
+                else if (message==='/baehre') {
+                    io.emit('giphy', {"message":'', "gurl":"", "id":getId(userIds.arr, socket.id).userName});
+                    chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='' /></li><br><br>");
+                }
+                else if (message==='/gank') {
+                    io.emit('giphy', {"message":'', "gurl":"", "id":getId(userIds.arr, socket.id).userName});
+                    chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='' /></li><br><br>");
+                }
+                else if (message==='/ogo') {
+                    io.emit('giphy', {"message":'', "gurl":"", "id":getId(userIds.arr, socket.id).userName});
+                    chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='' /></li><br><br>");
+                }
                 else if (message==='/hannah') {
-                        io.emit('hannah', {"id":getId(userIds.arr, socket.id).userName});
-                        chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://33.media.tumblr.com/26bf203475c4f4350c6d837da9e25a3f/tumblr_mucnehOqeX1rby04wo1_1280.gif' /></li><br><br>");
+                    io.emit('giphy', {"message":'', "gurl":"http://media.giphy.com/media/vVvBGU9NPt8ac/giphy.gif", "id":getId(userIds.arr, socket.id).userName});
+                    chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/vVvBGU9NPt8ac/giphy.gif' /></li><br><br>");
                 }
                 else if (message==='/greg') {
-                        io.emit('greg', {"id":getId(userIds.arr, socket.id).userName});
-                        chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/GFLcKd6MXid2M/giphy.gif' /></li><br><br>");
+                    io.emit('giphy', {"message":'', "gurl":"http://media.giphy.com/media/GFLcKd6MXid2M/giphy.gif", "id":getId(userIds.arr, socket.id).userName});
+                    chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/GFLcKd6MXid2M/giphy.gif' /></li><br><br>");
                 }
                 else if (message==='/reenu') {
-                        io.emit('reenu', {"id":getId(userIds.arr, socket.id).userName});
-                        chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/PFXmxJoyTNfDG/giphy.gif' /></li><br><br>");
+                    io.emit('giphy', {"message":'', "gurl":"http://media.giphy.com/media/PFXmxJoyTNfDG/giphy.gif", "id":getId(userIds.arr, socket.id).userName});
+                    chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/PFXmxJoyTNfDG/giphy.gif' /></li><br><br>");
                 }
                 else if (message==='/shrug') {
-                        io.emit('shrug', {"id":getId(userIds.arr, socket.id).userName});
-                        chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/y65VoOlimZaus/giphy.gif' /></li><br><br>");
+                    io.emit('shrug', {"id":getId(userIds.arr, socket.id).userName});
+                    chatMessages.push(getId(userIds.arr, socket.id).userName + ": <img src='http://media.giphy.com/media/y65VoOlimZaus/giphy.gif' /></li><br><br>");
                 }
                 else if (message==='/numusers') {
-                        io.emit('numusers', {"count":numUsers});
-                        chatMessages.push("OP: " + numUsers);
+                    io.emit('numusers', {"count":numUsers});
+                    chatMessages.push("OP: " + numUsers);
                 }
                 else if (message.substring(0,5)==='/self') {
                     var content = message.split(' ');
