@@ -91,7 +91,8 @@
       });
       socket.on('giphy', function(obj) {
           $('#messages').append("<li>" + obj.id + ": " + "<b>" + obj.message + "</b><br>" +  "<img src='" + obj.gurl + "' /></li>");
-          $('#message-container').scrollTop(10000);
+          var foo = document.getElementById("message-container");
+          $('message-container').scrollTop(10000);
       });
       socket.on('user self', function(obj) {
           $('#messages').append("<li><i>" + obj.id + " " + obj.message + "</i></li>");;
@@ -105,6 +106,15 @@
       });
       socket.on('erase chat', function(message){
         $('#messages').empty();
+      });
+      socket.on('whisper', function(obj){
+        $('#messages').append("<li><i>Whisper from " + obj.sender + "</i>: " + obj.message);
+      });
+      socket.on('whisperShow', function(obj){
+        $('#messages').append("<li><i>Whispered to " + obj.sendee + "</i>: " + obj.message);
+      });
+      socket.on('whisperFail', function(message){
+        $('#messages').append("<li><i>"+ message +  "</i>");
       });
       socket.on('changename', function(obj){
         //$('#messages').append("<li><i>"+getName("name") + " changed name to " + name + "</i></li>");
