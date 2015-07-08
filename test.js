@@ -16,6 +16,15 @@ function getId(arr, id){
 	return null;
 }
 
+function getName(arr, name){
+	for(var i = 0; i<arr.length; i++){
+		if(arr[i].userName===name){
+			return arr[i];
+		}
+	}
+	return null;
+}
+
 function unique(a){
         a.sort();
         for(var i = 1; i < a.length; ){
@@ -82,6 +91,22 @@ io.on('connection', function(socket){
 			io.emit('erase chat');
 			chatMessages = [];
 		}
+		else if(message.indexOf('/whisper') > -1){
+			var whisper = message.slice(9, message.length);
+			var arrTemp = whisper.split(" ");
+			if(getName(userIds.arr, arrTemp[0])!==null){
+				var socketId = getName(userIds.arr, arrTemp[0]).idNum;
+				var mess = "";
+				for(var a = 1; a<arrTemp.length; a++){
+						mess+=arrTemp[a]+ " ";
+				}
+				io.sockets.connected[socketId].emit("whisper", {"message": mess, "sender":getId(userIds.arr,socket.id).userName});
+				io.sockets.connected[socket.id].emit("whisperShow",{"message":mess, "sendee": arrTemp[0]});
+			}
+			else{
+				io.sockets.connected[socket.id].emit("whisperFail", "Your whisper to " + arrTemp[0] + " failed.");
+			}
+		}
 		else if (message =="/scroll"){
 						io.emit('scroll');
 		}
@@ -119,7 +144,7 @@ io.on('connection', function(socket){
 	    for (var x = 0; x < userIds.arr.length; x++) {
 		if ( userIds.arr[x].userName == name)
 		{
-			valid = false;	
+			valid = false;
 		}
 	    }
 	    if (valid) {
