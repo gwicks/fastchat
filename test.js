@@ -114,19 +114,30 @@ io.on('connection', function(socket){
             }
     }
     else if(message.indexOf("/changename")>-1){
-	    var name = message.slice(12,message.length);
-	    var valid = true;
-	    for (var x = 0; x < userIds.arr.length; x++) {
-		if ( userIds.arr[x].userName == name)
-		{
-			valid = false;	
-                        break;
-		}
-	    }
-	    if (valid) {
-	    	chatMessages.push(getId(userIds.arr, socket.id).userName + ": changed name to " + name + ".");
-	    	io.emit('changename',{"newName":name, "oldName": getId(userIds.arr, socket.id).userName});
-	    }
+            var name = message.split(' ');
+            if (name[1] && name[1].indexOf(' ') == -1) {
+	        if (name.length > 1)
+                {
+                    name = name.slice(1);
+                    name = name.join(' ');
+                }
+                else
+                {
+                    name = name[1];
+                }
+                var valid = true;
+                for (var x = 0; x < userIds.arr.length; x++) {
+                    if ( userIds.arr[x].userName == name)
+                    {
+                            valid = false;	
+                            break;
+                    }
+                }
+                if (valid) {
+                    chatMessages.push(getId(userIds.arr, socket.id).userName + ": changed name to " + name + ".");
+                    io.emit('changename',{"newName":name, "oldName": getId(userIds.arr, socket.id).userName});
+                }
+            }
     }
     else if (message.indexOf('/giphy') > -1) {
             var content = message.split(' ');
@@ -138,10 +149,12 @@ io.on('connection', function(socket){
                     var rawJSON = JSON.parse(body);
                     if (rawJSON["data"]) {
                         var selIndex = random.integer(0, (rawJSON["data"].length - 1))(engine);
+                        if (rawJSON["data"][0]) {
                         rawJSON = rawJSON["data"][selIndex]["images"]["original"];
                         var url = rawJSON["url"];
 		        chatMessages.push(getId(userIds.arr, socket.id).userName+ " " + content.join(' ')+ " " + "<img src='" + url + "' />");
                         io.emit('giphy', {"message":content.join(' '), "gurl":url, "id":getId(userIds.arr, socket.id).userName});
+                        }
                     }
                 }
                 });
