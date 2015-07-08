@@ -113,7 +113,7 @@ io.on('connection', function(socket){
 										var socketId = getName(userIds.arr, challenge).idNum;
 										var ticUrl = Math.floor(Math.random()*1000);
 										app.get('/'+ticUrl, function(request, response){
-											response.sendFile(__dirname + '/game.html');
+											response.sendFile(__dirname + '/tic.html');
 										});
 										io.sockets.connected[socketId].emit("tictactoe", {"message": "You were challenged to a game of Tic-Tac-Toe by" + getId(userIds.arr,socket.id).userName + "!", "url":ticUrl});
 										io.sockets.connected[socket.id].emit("tictactoe",{"message": "You challenged " + challenge + " to a game of Tic-Tac-Toe!", "url":ticUrl});
@@ -219,6 +219,9 @@ io.on('connection', function(socket){
                         chatMessages.push(getId(userIds.arr, socket.id).userName + ": " + message);
                 }
     });
+		socket.on('ticload', function(){
+			console.log("LOADED");
+		});
 });
 app.use(express.static(__dirname));
 

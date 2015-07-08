@@ -7,7 +7,7 @@
         padding-top: 150px;
       }
       h2.padding{
-        padding-left: 700px;
+        padding-left: 750px;
       }
       button.padding{
         position: absolute;
@@ -23,7 +23,7 @@
   </head>
   <body bgcolor="#2ECCFA">
     <canvas id="testCanvas" width = "500" height = "500"; class = "padding"></canvas>
-    <h2 id="title" class = "padding"></h2>
+    <h2 id="title" class = "padding">Tic-Tac-Toe</h2>
     <h1 id="gameFinal" class = "padding"></p>
   	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
@@ -342,9 +342,8 @@
       reset(grid);
       var canvas = document.getElementById("testCanvas");
       canvas.addEventListener("mousedown", mouse, false);
-      socket.on('tictactoeLoad', function(name){
-        window.alert("BLAH");
-        document.getElementById('title').innerHTML = name + "'s Tic-Tac-Toe Game";
+      socket.on('connect', function(){
+        socket.emit("ticload");
       });
   	</script>
   </body>
