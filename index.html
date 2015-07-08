@@ -73,22 +73,6 @@
           $('#messages').append("<li>" + data[i] + "</li>");
         }
       });
-      socket.on('hannah', function(obj) {
-          $('#messages').append("<li>" + obj.id + ": " + "<br><img src='http://33.media.tumblr.com/26bf203475c4f4350c6d837da9e25a3f/tumblr_mucnehOqeX1rby04wo1_1280.gif' /></li><br><br>");
-          $('#message-container').scrollTop(10000);
-      });
-      socket.on('greg', function(obj) {
-          $('#messages').append("<li>" + obj.id + ": " + "<br><img src='http://media.giphy.com/media/GFLcKd6MXid2M/giphy.gif' /></li><br><br>");
-          $('#message-container').scrollTop(10000);
-      });
-      socket.on('reenu', function(obj) {
-          $('#messages').append("<li>" + obj.id + ": " + "<br><img src='http://media.giphy.com/media/PFXmxJoyTNfDG/giphy.gif' /></li><br><br>");
-          $('#message-container').scrollTop(10000);
-      });
-      socket.on('shrug', function(obj) {
-          $('#messages').append("<li>" + obj.id + ": " + "<br><img src='http://media.giphy.com/media/y65VoOlimZaus/giphy.gif' /></li><br><br>");
-          $('#message-container').scrollTop(10000);
-      });
       socket.on('giphy', function(obj) {
           $('#messages').append("<li>" + obj.id + ": " + "<b>" + obj.message + "</b><br>" +  "<img src='" + obj.gurl + "' /></li>");
           var foo = document.getElementById("message-container");
@@ -96,10 +80,6 @@
       });
       socket.on('user self', function(obj) {
           $('#messages').append("<li><i>" + obj.id + " " + obj.message + "</i></li>");;
-      });
-      socket.on('numusers', function(obj) {
-          $('#messages').append("<li>OP: " + obj.count);
-          $('#message-container').scrollTop(10000);
       });
       socket.on('scroll', function() {
           $('#message-container').scrollTop(10000);
