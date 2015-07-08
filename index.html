@@ -108,13 +108,17 @@
         $('#messages').empty();
       });
       socket.on('whisper', function(obj){
-        $('#messages').append("<li><i>Whisper from " + obj.sender + "</i>: " + obj.message);
+        $('#messages').append("<li><i>Whisper from " + obj.sender + "</i>: " + obj.message + "</li>");
       });
       socket.on('whisperShow', function(obj){
-        $('#messages').append("<li><i>Whispered to " + obj.sendee + "</i>: " + obj.message);
+        $('#messages').append("<li><i>Whispered to " + obj.sendee + "</i>: " + obj.message + "</li>");
       });
-      socket.on('whisperFail', function(message){
-        $('#messages').append("<li><i>"+ message +  "</i>");
+      socket.on('fail', function(message){
+        $('#messages').append("<li><i>"+ message +  "</i></li>");
+      });
+      socket.on('tictactoe', function(obj){
+        $('#messages').append("<li><i>"+ obj.message +  "</i></li>");
+        $('#messages').append("<li><a href = "+ obj.url +  ">" + obj.url + "</a></li>");
       });
       socket.on('changename', function(obj){
         //$('#messages').append("<li><i>"+getName("name") + " changed name to " + name + "</i></li>");
