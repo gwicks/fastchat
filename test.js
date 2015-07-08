@@ -104,7 +104,21 @@ io.on('connection', function(socket){
 				io.sockets.connected[socket.id].emit("whisperShow",{"message":mess, "sendee": arrTemp[0]});
 			}
 			else{
-				io.sockets.connected[socket.id].emit("whisperFail", "Your whisper to " + arrTemp[0] + " failed.");
+				io.sockets.connected[socket.id].emit("fail", "Your whisper to " + arrTemp[0] + " failed.");
+			}
+		}
+		else if(message.substring(0,10)==='/tictactoe'){
+			var challenge = message.slice(11, message.length);
+			if(getName(userIds.arr, challenge)!==null){
+				var socketId = getName(userIds.arr, challenge).idNum;
+				var ticUrl = Math.floor(Math.random()*1000);
+				app.get('/'+ticUrl, function(request, response){
+					response.sendFile(__dirname + '/game.html');
+				});
+				io.sockets.connected[socketId].emit("tictactoe", {"message": getId(userIds.arr, socket.id).userName + "challenges you to a game of Tic Tac Toe!", "url":ticUrl});
+			}
+			else{
+				io.sockets.connected[socket.id].emit("fail", "Your Tic-Tac-Toe challenge to " + challenge + " failed.");
 			}
 		}
 		else if (message =="/scroll"){
