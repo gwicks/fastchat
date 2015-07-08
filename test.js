@@ -173,7 +173,7 @@ io.on('connection', function(socket){
                 for (var x = 0; x < userIds.arr.length; x++) {
                     if ( userIds.arr[x].userName == name)
                     {
-                            valid = false;	
+                            valid = false;
                             break;
                     }
                 }
