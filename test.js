@@ -91,7 +91,7 @@ io.on('connection', function(socket){
 			io.emit('erase chat');
 			chatMessages = [];
 		}
-		else if(message.indexOf('/whisper') > -1){
+		else if(message.substring(0,8)==='/whisper'){
 			var whisper = message.slice(9, message.length);
 			var arrTemp = whisper.split(" ");
 			if(getName(userIds.arr, arrTemp[0])!==null){
@@ -138,7 +138,7 @@ io.on('connection', function(socket){
                 io.emit('user self', {"id":getId(userIds.arr, socket.id).userName, "message":message});
             }
     }
-    else if(message.indexOf("/changename")>-1){
+    else if(message.substring(0,11)==="/changename"){
 	    var name = message.slice(12,message.length);
 	    var valid = true;
 	    for (var x = 0; x < userIds.arr.length; x++) {
@@ -152,7 +152,7 @@ io.on('connection', function(socket){
 	    	io.emit('changename',{"newName":name, "oldName": getId(userIds.arr, socket.id).userName});
 	    }
     }
-    else if (message.indexOf('/giphy') > -1) {
+    else if (message.substring(0,6)==='/giphy') {
             var content = message.split(' ');
             if (content.length > 1 && content[1] != '') {
                 var content = content.slice(1);
