@@ -130,7 +130,7 @@ io.on('connection', function(socket){
             io.emit('numusers', {"count":numUsers});
 	    chatMessages.push("OP: " + numUsers);
     }
-    else if (message.indexOf('/self') > -1) {
+    else if (message.substring(0,5)==='/self') {
             var content = message.split(' ');
             if (content.length > 1 && content[1] != '') {
                 content = content.slice(1);
