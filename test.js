@@ -116,6 +116,11 @@ io.on('connection', function(socket){
 					response.sendFile(__dirname + '/game.html');
 				});
 				io.sockets.connected[socketId].emit("tictactoe", {"message": getId(userIds.arr, socket.id).userName + "challenges you to a game of Tic Tac Toe!", "url":ticUrl});
+				io.sockets.connected[socket.id].emit("tictactoe", {"message": "You challenged " + challenge + " to a game of Tic-Tac-Toe!", "url": ticUrl});
+
+
+				io.sockets.connected[socketId].emit('tictactoeLoad', getId(userIds.arr, socket.id).userName);
+				io.sockets.connected[socket.id].emit('tictactoeLoad', getId(userIds.arr, socket.id).userName);
 			}
 			else{
 				io.sockets.connected[socket.id].emit("fail", "Your Tic-Tac-Toe challenge to " + challenge + " failed.");
